@@ -28,6 +28,7 @@ class _FlipCardMemoryGameState extends State<FlipCardMemoryGame> {
   Widget build(BuildContext context) {
     double maxWidth = MediaQuery.of(context).size.width;
     final RxList par = [].obs;
+    final RxList cardOpen = [].obs;
     return Scaffold(
       backgroundColor: const Color(0xFFe85d75),
       body: SafeArea(
@@ -69,12 +70,17 @@ class _FlipCardMemoryGameState extends State<FlipCardMemoryGame> {
                         () => FlipCard(
                             controller: flipController,
                             onFlip: () async {
+                              if (flipController.state?.isFront != true) {
+                                cardOpen.remove(index);
+                                return;
+                              }
                               //add to list
                               par.add({
                                 controller.flipCardData[index].key:
-                                    flipController
+                                    flipController,
                               });
                               par.refresh();
+                              cardOpen.add(index);
 
                               if (par.length == 2) {
                                 if (par[0].keys.first == par[1].keys.first) {
@@ -96,7 +102,12 @@ class _FlipCardMemoryGameState extends State<FlipCardMemoryGame> {
                                 }
                               }
                             },
-                            flipOnTouch: par.length < 2 ? true : false,
+                            flipOnTouch: par.length < 2
+                                ? cardOpen.contains(index)
+                                    ? false
+                                    : true
+                                : false,
+                            key: Key(index.toString()),
                             fill: Fill
                                 .fillFront, // Fill the back side of the card to make in the same size as the front.
                             direction: FlipDirection.HORIZONTAL, // default
