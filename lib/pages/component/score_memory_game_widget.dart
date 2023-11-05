@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-scoreWidget({required String title, required int value}){
+scoreWidget({required String title, required int value}) {
   return Container(
-    padding:EdgeInsets.fromLTRB(42, 15, 42, 15),
+    padding: const EdgeInsets.fromLTRB(42, 15, 42, 15),
     decoration: BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.circular(20),
@@ -10,8 +10,16 @@ scoreWidget({required String title, required int value}){
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(title,style: const TextStyle(color: Colors.black,fontSize: 17,fontWeight: FontWeight.bold),),
-        Text(value.toString(),style: const TextStyle(color: Colors.black,fontSize: 17,fontWeight: FontWeight.bold),),
+        Text(
+          title,
+          style: const TextStyle(
+              color: Colors.black, fontSize: 17, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          value.toString(),
+          style: const TextStyle(
+              color: Colors.black, fontSize: 17, fontWeight: FontWeight.bold),
+        ),
       ],
     ),
   );
