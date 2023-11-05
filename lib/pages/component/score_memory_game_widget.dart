@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-scoreWidget({required String title, required double value}){
+scoreWidget({required String title, required int value}){
   return Container(
     padding:EdgeInsets.fromLTRB(42, 15, 42, 15),
     decoration: BoxDecoration(
