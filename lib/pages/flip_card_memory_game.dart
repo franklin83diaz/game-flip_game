@@ -1,34 +1,22 @@
 import 'package:flip_card/flip_card.dart';
-import 'package:flip_card/flip_card_controller.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:game/logic/win.dart';
 import 'package:get/get.dart';
 
 import '../controllers/flip_card_controller.dart';
 import 'component/score_memory_game_widget.dart';
 
-class FlipCardMemoryGame extends StatefulWidget {
-  const FlipCardMemoryGame({Key? key}) : super(key: key);
-
-  @override
-  State<FlipCardMemoryGame> createState() => _FlipCardMemoryGameState();
-}
-
-class _FlipCardMemoryGameState extends State<FlipCardMemoryGame> {
-  final controller = Get.put(FlipCardGameController());
-  final flipCardController = FlipCardController();
-
-  @override
-  void initState() {
-    controller.initializeGame();
-    super.initState();
-  }
+class FlipCardMemoryGame extends StatelessWidget {
+  const FlipCardMemoryGame({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final FlipCardGameController controller =
+        Get.find<FlipCardGameController>();
     double maxWidth = MediaQuery.of(context).size.width;
-    final RxList par = [].obs;
-    final RxList cardOpen = [].obs;
+
+    WinLose.start();
+
     return Scaffold(
       backgroundColor: const Color(0xFFe85d75),
       body: SafeArea(
@@ -47,8 +35,10 @@ class _FlipCardMemoryGameState extends State<FlipCardMemoryGame> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    scoreWidget(title: "TRIES", value: 0),
-                    scoreWidget(title: "SCORE", value: 0),
+                    Obx(() => scoreWidget(
+                        title: "TRIES", value: controller.tries.value)),
+                    Obx(() => scoreWidget(
+                        title: "SCORE", value: controller.score.value)),
                   ],
                 ),
                 GridView.builder(
@@ -63,49 +53,60 @@ class _FlipCardMemoryGameState extends State<FlipCardMemoryGame> {
                             mainAxisSpacing: 15),
                     itemCount: controller.flipCardData.length,
                     itemBuilder: (BuildContext ctx, index) {
-                      final FlipCardController flipController =
-                          FlipCardController();
-
                       return Obx(
                         () => FlipCard(
-                            controller: flipController,
+                            controller:
+                                controller.flipCardData[index].controller,
                             onFlip: () async {
-                              if (flipController.state?.isFront != true) {
-                                cardOpen.remove(index);
-                                return;
+                              if (controller.isBusy.value == true) return;
+                              if (controller.flipCardData[index].controller
+                                      .state!.isFront ==
+                                  true) {
+                                controller.flipCardData[index].isFlipped = true;
+                              } else {
+                                controller.flipCardData[index].isFlipped =
+                                    false;
                               }
-                              //add to list
-                              par.add({
-                                controller.flipCardData[index].key:
-                                    flipController,
-                              });
-                              par.refresh();
-                              cardOpen.add(index);
+                              //add to selected card
+                              controller.selectedCard
+                                  .add(controller.flipCardData[index]);
 
-                              if (par.length == 2) {
-                                if (par[0].keys.first == par[1].keys.first) {
-                                  if (kDebugMode) {
-                                    print("match");
-                                  }
-                                  par.clear();
+                              //check if selected card is 2
+                              if (controller.selectedCard.length == 2) {
+                                //check if selected card is matched
+                                if (controller.selectedCard[0].key ==
+                                    controller.selectedCard[1].key) {
+                                  //if matched
+                                  controller
+                                      .flipCardData[
+                                          controller.selectedCard[0].index]
+                                      .isMatched = true;
+                                  controller
+                                      .flipCardData[
+                                          controller.selectedCard[1].index]
+                                      .isMatched = true;
+                                  controller.selectedCard.clear();
                                 } else {
-                                  if (kDebugMode) {
-                                    print("not match");
-                                  }
-
+                                  //if not matched
                                   await Future.delayed(
                                       const Duration(milliseconds: 1000));
-                                  par[0].values.first.toggleCard();
-                                  par[1].values.first.toggleCard();
-
-                                  par.clear();
+                                  controller.selectedCard[0].controller
+                                      .toggleCard();
+                                  controller.selectedCard[1].controller
+                                      .toggleCard();
+                                  controller.selectedCard.clear();
+                                  //tries -1
+                                  controller.tries.value--;
                                 }
                               }
+                              controller.flipCardData.refresh();
                             },
-                            flipOnTouch: par.length < 2
-                                ? cardOpen.contains(index)
+                            flipOnTouch: controller.selectedCard.length < 2
+                                ? controller.flipCardData[index].isFlipped
                                     ? false
-                                    : true
+                                    : controller.isBusy.value
+                                        ? false
+                                        : true
                                 : false,
                             key: Key(index.toString()),
                             fill: Fill
@@ -130,9 +131,7 @@ class _FlipCardMemoryGameState extends State<FlipCardMemoryGame> {
                                     borderRadius: BorderRadius.circular(8)),
                                 child: Image.asset(
                                     controller.flipCardData[index].img,
-                                    fit: BoxFit.fill)
-                                // const Icon(Icons.question_mark,color: Colors.white,size: 42,),
-                                )),
+                                    fit: BoxFit.fill))),
                       );
                     }),
               ],
