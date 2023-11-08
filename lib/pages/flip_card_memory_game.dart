@@ -1,6 +1,6 @@
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
-import 'package:game/logic/win.dart';
+import 'package:game/logic/win_lose.dart';
 import 'package:get/get.dart';
 
 import '../controllers/flip_card_controller.dart';
@@ -14,6 +14,8 @@ class FlipCardMemoryGame extends StatelessWidget {
     final FlipCardGameController controller =
         Get.find<FlipCardGameController>();
     double maxWidth = MediaQuery.of(context).size.width;
+    final MetaGameController metaGameController =
+        Get.find<MetaGameController>();
 
     WinLose.start();
 
@@ -22,10 +24,12 @@ class FlipCardMemoryGame extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
+            alignment: Alignment.center,
             padding: const EdgeInsets.all(12),
             width: maxWidth,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text(
                   "MEMORY GAME",
@@ -37,103 +41,111 @@ class FlipCardMemoryGame extends StatelessWidget {
                   children: [
                     Obx(() => scoreWidget(
                         title: "TRIES", value: controller.tries.value)),
+                    Obx(() => Text(
+                          "LEVEL ${metaGameController.level.value}",
+                          style: const TextStyle(
+                              fontSize: 12, color: Colors.white),
+                        )),
                     Obx(() => scoreWidget(
                         title: "SCORE", value: controller.score.value)),
                   ],
                 ),
-                GridView.builder(
-                    padding: const EdgeInsets.only(top: 24),
-                    primary: false,
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            childAspectRatio: 3.5 / 4,
-                            crossAxisSpacing: 15,
-                            mainAxisSpacing: 15),
-                    itemCount: controller.flipCardData.length,
-                    itemBuilder: (BuildContext ctx, index) {
-                      return Obx(
-                        () => FlipCard(
-                            controller:
-                                controller.flipCardData[index].controller,
-                            onFlip: () async {
-                              if (controller.isBusy.value == true) return;
-                              if (controller.flipCardData[index].controller
-                                      .state!.isFront ==
-                                  true) {
-                                controller.flipCardData[index].isFlipped = true;
-                              } else {
-                                controller.flipCardData[index].isFlipped =
-                                    false;
-                              }
-                              //add to selected card
-                              controller.selectedCard
-                                  .add(controller.flipCardData[index]);
-
-                              //check if selected card is 2
-                              if (controller.selectedCard.length == 2) {
-                                //check if selected card is matched
-                                if (controller.selectedCard[0].key ==
-                                    controller.selectedCard[1].key) {
-                                  //if matched
-                                  controller
-                                      .flipCardData[
-                                          controller.selectedCard[0].index]
-                                      .isMatched = true;
-                                  controller
-                                      .flipCardData[
-                                          controller.selectedCard[1].index]
-                                      .isMatched = true;
-                                  controller.selectedCard.clear();
+                Obx(
+                  () => GridView.builder(
+                      padding: const EdgeInsets.only(top: 24),
+                      primary: false,
+                      shrinkWrap: true,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              childAspectRatio: 3.5 / 4,
+                              crossAxisSpacing: 15,
+                              mainAxisSpacing: 15),
+                      itemCount: controller.flipCardData.length,
+                      itemBuilder: (BuildContext ctx, index) {
+                        return Obx(
+                          () => FlipCard(
+                              controller:
+                                  controller.flipCardData[index].controller,
+                              onFlip: () async {
+                                if (controller.isBusy.value == true) return;
+                                if (controller.flipCardData[index].controller
+                                        .state!.isFront ==
+                                    true) {
+                                  controller.flipCardData[index].isFlipped =
+                                      true;
                                 } else {
-                                  //if not matched
-                                  await Future.delayed(
-                                      const Duration(milliseconds: 1000));
-                                  controller.selectedCard[0].controller
-                                      .toggleCard();
-                                  controller.selectedCard[1].controller
-                                      .toggleCard();
-                                  controller.selectedCard.clear();
-                                  //tries -1
-                                  controller.tries.value--;
+                                  controller.flipCardData[index].isFlipped =
+                                      false;
                                 }
-                              }
-                              controller.flipCardData.refresh();
-                            },
-                            flipOnTouch: controller.selectedCard.length < 2
-                                ? controller.flipCardData[index].isFlipped
-                                    ? false
-                                    : controller.isBusy.value
-                                        ? false
-                                        : true
-                                : false,
-                            key: Key(index.toString()),
-                            fill: Fill
-                                .fillFront, // Fill the back side of the card to make in the same size as the front.
-                            direction: FlipDirection.HORIZONTAL, // default
-                            side: CardSide
-                                .FRONT, // The side to initially display.
-                            front: Container(
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    color: Colors.orange,
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: const Icon(
-                                  Icons.question_mark,
-                                  color: Colors.white,
-                                  size: 42,
-                                )),
-                            back: Container(
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
+                                //add to selected card
+                                controller.selectedCard
+                                    .add(controller.flipCardData[index]);
+
+                                //check if selected card is 2
+                                if (controller.selectedCard.length == 2) {
+                                  //check if selected card is matched
+                                  if (controller.selectedCard[0].key ==
+                                      controller.selectedCard[1].key) {
+                                    //if matched
+                                    controller
+                                        .flipCardData[
+                                            controller.selectedCard[0].index]
+                                        .isMatched = true;
+                                    controller
+                                        .flipCardData[
+                                            controller.selectedCard[1].index]
+                                        .isMatched = true;
+                                    controller.selectedCard.clear();
+                                  } else {
+                                    //if not matched
+                                    await Future.delayed(
+                                        const Duration(milliseconds: 1000));
+                                    controller.selectedCard[0].controller
+                                        .toggleCard();
+                                    controller.selectedCard[1].controller
+                                        .toggleCard();
+                                    controller.selectedCard.clear();
+                                    //tries -1
+                                    controller.tries.value--;
+                                  }
+                                }
+                                controller.flipCardData.refresh();
+                              },
+                              flipOnTouch: controller.selectedCard.length < 2
+                                  ? controller.flipCardData[index].isFlipped
+                                      ? false
+                                      : controller.isBusy.value
+                                          ? false
+                                          : true
+                                  : false,
+                              key: Key(index.toString()),
+                              fill: Fill
+                                  .fillFront, // Fill the back side of the card to make in the same size as the front.
+                              direction: FlipDirection.HORIZONTAL, // default
+                              side: CardSide
+                                  .FRONT, // The side to initially display.
+                              front: Container(
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: Colors.orange,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: const Icon(
+                                    Icons.question_mark,
                                     color: Colors.white,
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: Image.asset(
-                                    controller.flipCardData[index].img,
-                                    fit: BoxFit.fill))),
-                      );
-                    }),
+                                    size: 42,
+                                  )),
+                              back: Container(
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: Image.asset(
+                                      controller.flipCardData[index].img,
+                                      fit: BoxFit.fill))),
+                        );
+                      }),
+                ),
               ],
             ),
           ),

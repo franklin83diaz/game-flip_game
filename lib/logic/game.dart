@@ -20,19 +20,21 @@ class Game {
     }
 
     await Future.delayed(const Duration(milliseconds: 1000));
-    controller.flipCardData.value = DummyData(6).data;
+    controller.flipCardData.value = DummyData().data;
     await Future.delayed(const Duration(milliseconds: 500));
 
     for (var element in controller.flipCardData) {
       element.controller.toggleCard();
     }
-    await Future.delayed(const Duration(milliseconds: 10000));
+    await Future.delayed(const Duration(milliseconds: 3000));
     for (var element in controller.flipCardData) {
       element.controller.toggleCard();
     }
 
-    controller.score.value = 0;
     controller.tries.value = 5;
+
+    controller.flipCardData.refresh();
+
     controller.isBusy.value = false;
   }
 }

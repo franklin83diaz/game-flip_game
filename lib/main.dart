@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 void main() {
   //Initial controller
+  Get.put(MetaGameController());
   Get.put(FlipCardGameController());
   Game.newGame();
 
