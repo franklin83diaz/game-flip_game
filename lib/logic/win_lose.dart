@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:game/controllers/flip_card_controller.dart';
-import 'package:game/logic/game.dart';
 import 'package:get/get.dart';
+import 'package:memory/controllers/flip_card_controller.dart';
+import 'package:memory/logic/game.dart';
 
 class WinLose {
   static start() {

@@ -1,4 +1,4 @@
-package com.example.game
+package com.mfcenterllc.memory
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:game/controllers/flip_card_controller.dart';
-import 'package:game/logic/game.dart';
-import 'package:game/pages/flip_card_memory_game.dart';
 import 'package:get/get.dart';
+import 'package:memory/controllers/flip_card_controller.dart';
+import 'package:memory/logic/game.dart';
+import 'package:memory/logic/win_lose.dart';
+import 'package:memory/pages/flip_card_memory_game.dart';
 
 void main() {
   //Initial controller
   Get.put(MetaGameController());
   Get.put(FlipCardGameController());
   Game.newGame();
+  WinLose.start();
 
   runApp(const MyApp());
 }

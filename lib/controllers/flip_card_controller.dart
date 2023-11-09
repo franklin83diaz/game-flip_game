@@ -1,5 +1,5 @@
-import 'package:game/models/flip_card_model.dart';
 import 'package:get/get.dart';
+import 'package:memory/models/flip_card_model.dart';
 
 class FlipCardGameController extends GetxController {
   RxList<FlipCardModel> flipCardData = DummyData().data.obs;

@@ -1,6 +1,6 @@
-import 'package:game/controllers/flip_card_controller.dart';
-import 'package:game/models/flip_card_model.dart';
 import 'package:get/get.dart';
+import 'package:memory/controllers/flip_card_controller.dart';
+import 'package:memory/models/flip_card_model.dart';
 
 class Game {
   //new game

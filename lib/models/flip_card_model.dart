@@ -1,6 +1,6 @@
 import 'package:flip_card/flip_card_controller.dart';
-import 'package:game/controllers/flip_card_controller.dart';
 import 'package:get/get.dart';
+import 'package:memory/controllers/flip_card_controller.dart';
 
 class FlipCardModel {
   final String img;

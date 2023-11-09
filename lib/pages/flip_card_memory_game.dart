@@ -1,6 +1,5 @@
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
-import 'package:game/logic/win_lose.dart';
 import 'package:get/get.dart';
 
 import '../controllers/flip_card_controller.dart';
@@ -16,8 +15,6 @@ class FlipCardMemoryGame extends StatelessWidget {
     double maxWidth = MediaQuery.of(context).size.width;
     final MetaGameController metaGameController =
         Get.find<MetaGameController>();
-
-    WinLose.start();
 
     return Scaffold(
       backgroundColor: const Color(0xFFe85d75),
