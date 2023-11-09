@@ -94,7 +94,15 @@ flutter:
   assets:
     - assets/
     - assets/image/
-    - assets/image/flip_card/
-    - assets/image/flip_card/cat.png
+    - assets/image/level1/
+    - assets/image/level2/
+    - assets/image/level3/
+    - assets/image/level4/
+    - assets/image/level5/
+    - assets/image/level6/
+    - assets/image/level7/
+    - assets/image/level8/
+    
+
 
 
