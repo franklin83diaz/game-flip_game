@@ -80,7 +80,6 @@ class DummyData {
   }
 
   List<String> pathImgLevel_1 = [
-    "assets/image/level1/image1.jpg",
     "assets/image/level1/image2.png",
     "assets/image/level1/image3.png",
     "assets/image/level1/image4.png",

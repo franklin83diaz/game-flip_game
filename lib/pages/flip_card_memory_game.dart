@@ -55,7 +55,8 @@ class FlipCardMemoryGame extends StatelessWidget {
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount:
                               metaGameController.level.value > 1 ? 3 : 2,
-                          childAspectRatio: 3.5,
+                          childAspectRatio:
+                              metaGameController.level.value > 1 ? 3.5 / 4 : 1,
                           crossAxisSpacing: 15,
                           mainAxisSpacing: 15),
                       itemCount: controller.flipCardData.length,
