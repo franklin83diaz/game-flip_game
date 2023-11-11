@@ -52,12 +52,13 @@ class FlipCardMemoryGame extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 24),
                       primary: false,
                       shrinkWrap: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              childAspectRatio: 3.5 / 4,
-                              crossAxisSpacing: 15,
-                              mainAxisSpacing: 15),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount:
+                              metaGameController.level.value > 1 ? 3 : 2,
+                          childAspectRatio:
+                              metaGameController.level.value > 1 ? 3 / 4 : 1,
+                          crossAxisSpacing: 15,
+                          mainAxisSpacing: 15),
                       itemCount: controller.flipCardData.length,
                       itemBuilder: (BuildContext ctx, index) {
                         return Obx(

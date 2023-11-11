@@ -35,7 +35,7 @@ class WinLose {
         await Future.delayed(const Duration(milliseconds: 1000));
 
         //All level done
-        if (metaCardGameController.level.value > 20) {
+        if (metaCardGameController.level.value > 11) {
           Get.defaultDialog(
               //no close
               barrierDismissible: false,
@@ -66,19 +66,19 @@ class WinLose {
                     controller.tries.value = 5;
                   }
                   //
-                  if (metaCardGameController.level.value > 6) {
+                  if (metaCardGameController.level.value > 5) {
                     controller.tries.value = 4;
                   }
                   //
-                  if (metaCardGameController.level.value > 9) {
+                  if (metaCardGameController.level.value > 7) {
                     controller.tries.value = 3;
                   }
                   //
-                  if (metaCardGameController.level.value > 12) {
+                  if (metaCardGameController.level.value > 8) {
                     controller.tries.value = 2;
                   }
                   //
-                  if (metaCardGameController.level.value > 15) {
+                  if (metaCardGameController.level.value > 9) {
                     controller.tries.value = 1;
                   }
 

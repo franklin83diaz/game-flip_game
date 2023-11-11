@@ -50,6 +50,12 @@ class DummyData {
     if (metaCardGameController.level.value >= 8) {
       pathImg = pathImgLevel_8;
     }
+    if (metaCardGameController.level.value >= 9) {
+      pathImg = pathImgLevel_9;
+    }
+    if (metaCardGameController.level.value >= 10) {
+      pathImg = pathImgLevel_10;
+    }
 
     pathImg.shuffle();
     for (int i = 0; i < numberCard; i++) {
@@ -142,5 +148,23 @@ class DummyData {
     "assets/image/level8/image4.png",
     "assets/image/level8/image5.png",
     "assets/image/level8/image6.png",
+  ];
+
+  List<String> pathImgLevel_9 = [
+    "assets/image/level9/image1.png",
+    "assets/image/level9/image2.png",
+    "assets/image/level9/image3.png",
+    "assets/image/level9/image4.png",
+    "assets/image/level9/image5.png",
+    "assets/image/level9/image6.png",
+  ];
+
+  List<String> pathImgLevel_10 = [
+    "assets/image/level10/image1.png",
+    "assets/image/level10/image2.png",
+    "assets/image/level10/image3.png",
+    "assets/image/level10/image4.png",
+    "assets/image/level10/image5.png",
+    "assets/image/level10/image6.png",
   ];
 }
