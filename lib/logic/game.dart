@@ -31,8 +31,6 @@ class Game {
       element.controller.toggleCard();
     }
 
-    controller.tries.value = 5;
-
     controller.flipCardData.refresh();
 
     controller.isBusy.value = false;

@@ -32,10 +32,8 @@ class WinLose {
         controller.score.value +=
             controller.tries.value * 8 * metaCardGameController.level.value;
 
-        await Future.delayed(const Duration(milliseconds: 1000));
-
         //All level done
-        if (metaCardGameController.level.value > 11) {
+        if (metaCardGameController.level.value >= 10) {
           Get.defaultDialog(
               //no close
               barrierDismissible: false,
@@ -50,7 +48,9 @@ class WinLose {
                     Get.back();
                   },
                   child: const Text("New Game")));
+          return;
         }
+        await Future.delayed(const Duration(milliseconds: 1000));
 
         Get.defaultDialog(
             //no close
@@ -61,20 +61,22 @@ class WinLose {
                 onPressed: () {
                   //up level
                   metaCardGameController.level.value++;
-
-                  if (metaCardGameController.level.value > 3) {
+                  //
+                  if (metaCardGameController.level.value > 3 &&
+                      metaCardGameController.level.value < 5) {
                     controller.tries.value = 5;
                   }
                   //
-                  if (metaCardGameController.level.value > 5) {
+                  if (metaCardGameController.level.value > 5 &&
+                      metaCardGameController.level.value < 7) {
                     controller.tries.value = 4;
                   }
                   //
-                  if (metaCardGameController.level.value > 7) {
+                  if (metaCardGameController.level.value == 7) {
                     controller.tries.value = 3;
                   }
                   //
-                  if (metaCardGameController.level.value > 8) {
+                  if (metaCardGameController.level.value == 8) {
                     controller.tries.value = 2;
                   }
                   //

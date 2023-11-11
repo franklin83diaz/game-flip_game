@@ -1,4 +1,5 @@
 import 'package:flip_card/flip_card.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -128,11 +129,19 @@ class FlipCardMemoryGame extends StatelessWidget {
                                   decoration: BoxDecoration(
                                       color: Colors.orange,
                                       borderRadius: BorderRadius.circular(8)),
-                                  child: const Icon(
-                                    Icons.question_mark,
-                                    color: Colors.white,
-                                    size: 42,
-                                  )),
+                                  child: kDebugMode
+                                      ? Text(
+                                          controller.flipCardData[index].key
+                                              .toString(),
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 42),
+                                        )
+                                      : const Icon(
+                                          Icons.question_mark,
+                                          color: Colors.white,
+                                          size: 42,
+                                        )),
                               back: Container(
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(

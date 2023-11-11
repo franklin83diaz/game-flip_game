@@ -1,4 +1,5 @@
 import 'package:flip_card/flip_card_controller.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:memory/controllers/flip_card_controller.dart';
 
@@ -76,6 +77,30 @@ class DummyData {
     data.shuffle();
     for (int i = 0; i < data.length; i++) {
       data[i].index = i;
+    }
+
+    //Print resolved order
+    if (kDebugMode) {
+      List<Map> resolved = [];
+      for (var element in data) {
+        int row = element.index % 3 + 1;
+        int col = (element.index / 3).floor() + 1;
+        resolved.add({"row": row, "col": col, "key": element.key});
+      }
+      print("Resolved order");
+      print("-------------------");
+      //order by key
+      resolved.sort((a, b) => a["key"].compareTo(b["key"]));
+
+      int i = 0;
+      for (var element in resolved) {
+        i++;
+        print(element);
+        if (i == 2) {
+          print("-------------------");
+          i = 0;
+        }
+      }
     }
   }
 
