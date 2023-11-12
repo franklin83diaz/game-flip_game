@@ -10,7 +10,7 @@ class WinLose {
     final MetaGameController metaCardGameController =
         Get.find<MetaGameController>();
 
-    //monitor tries
+    //monitor lose
     controller.tries.listen((value) {
       if (value == 0) {
         Get.defaultDialog(
@@ -29,6 +29,7 @@ class WinLose {
 
     //monitor Win
     controller.flipCardData.listen((value) async {
+      //Win All level
       if (value.every((element) => element.isMatched == true)) {
         controller.score.value +=
             controller.tries.value * 8 * metaCardGameController.level.value;
@@ -40,7 +41,7 @@ class WinLose {
               barrierDismissible: false,
               title: "Game Over",
               middleText:
-                  "You Win !!!, All levels!!! :), Your Score is ${controller.score.value}",
+                  "You Win!!!, All levels!!! :), Your Score is ${controller.score.value}",
               confirm: TextButton(
                   onPressed: () {
                     controller.tries.value = 9;
@@ -52,10 +53,8 @@ class WinLose {
                   child: const Text("New Game")));
           return;
         }
-        await Future.delayed(const Duration(milliseconds: 1000));
 
         Get.defaultDialog(
-            //no close
             barrierDismissible: false,
             title: "Game Over",
             middleText: "You Win, Your Score is ${controller.score.value}",
@@ -69,6 +68,33 @@ class WinLose {
                   Get.back();
                 },
                 child: const Text("New Game")));
+      }
+    });
+
+    //Monitor match
+    controller.selectedCard.listen((value) async {
+      // if (controller.selectedCard.length > 2) {
+      //   return;
+      // }
+      //check if selected card is 2
+      if (controller.selectedCard.length == 2) {
+        //check if selected card is matched
+        if (controller.selectedCard[0].key == controller.selectedCard[1].key) {
+          //if matched
+          controller.flipCardData[controller.selectedCard[0].index].isMatched =
+              true;
+          controller.flipCardData[controller.selectedCard[1].index].isMatched =
+              true;
+          controller.selectedCard.clear();
+        } else {
+          await Future.delayed(const Duration(milliseconds: 1000));
+          //if not matched
+          controller.selectedCard[0].controller.toggleCard();
+          controller.selectedCard[1].controller.toggleCard();
+          controller.selectedCard.clear();
+          //tries -1
+          controller.tries.value--;
+        }
       }
     });
   }
@@ -109,7 +135,7 @@ setTries() {
     controller.tries.value = 2;
   }
   //level 9-10
-  if (metaCardGameController.level.value > 9) {
+  if (metaCardGameController.level.value >= 9) {
     controller.tries.value = 1;
   }
 }
