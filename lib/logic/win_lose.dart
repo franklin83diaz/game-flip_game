@@ -19,6 +19,7 @@ class WinLose {
             middleText: "You Lose",
             confirm: TextButton(
                 onPressed: () async {
+                  setTries();
                   Game.newGame();
                   Get.back();
                 },
@@ -44,6 +45,7 @@ class WinLose {
                   onPressed: () {
                     controller.tries.value = 9;
                     metaCardGameController.level.value = 1;
+                    setTries();
                     Game.newGame();
                     Get.back();
                   },
@@ -61,40 +63,7 @@ class WinLose {
                 onPressed: () {
                   //up level
                   metaCardGameController.level.value++;
-                  //
-                  if (metaCardGameController.level.value == 1) {
-                    controller.tries.value = 9;
-                  }
-                  if (metaCardGameController.level.value == 2) {
-                    controller.tries.value = 7;
-                  }
-                  //
-                  //
-                  if (metaCardGameController.level.value == 3) {
-                    controller.tries.value = 6;
-                  }
-                  //
-                  if (metaCardGameController.level.value > 3 &&
-                      metaCardGameController.level.value < 5) {
-                    controller.tries.value = 5;
-                  }
-                  //
-                  if (metaCardGameController.level.value > 5 &&
-                      metaCardGameController.level.value < 7) {
-                    controller.tries.value = 4;
-                  }
-                  //
-                  if (metaCardGameController.level.value == 7) {
-                    controller.tries.value = 3;
-                  }
-                  //
-                  if (metaCardGameController.level.value == 8) {
-                    controller.tries.value = 2;
-                  }
-                  //
-                  if (metaCardGameController.level.value > 9) {
-                    controller.tries.value = 1;
-                  }
+                  setTries();
 
                   Game.newGame();
                   Get.back();
@@ -102,5 +71,45 @@ class WinLose {
                 child: const Text("New Game")));
       }
     });
+  }
+}
+
+setTries() {
+  final MetaGameController metaCardGameController =
+      Get.find<MetaGameController>();
+  final FlipCardGameController controller = Get.find<FlipCardGameController>();
+
+  //level 1
+  if (metaCardGameController.level.value == 1) {
+    controller.tries.value = 9;
+  }
+  //level 2
+  if (metaCardGameController.level.value == 2) {
+    controller.tries.value = 7;
+  }
+  //level 3
+  if (metaCardGameController.level.value == 3) {
+    controller.tries.value = 6;
+  }
+  //level 4-5
+  if (metaCardGameController.level.value > 3 &&
+      metaCardGameController.level.value <= 5) {
+    controller.tries.value = 5;
+  }
+  //level 6
+  if (metaCardGameController.level.value == 6) {
+    controller.tries.value = 4;
+  }
+  //level 7
+  if (metaCardGameController.level.value == 7) {
+    controller.tries.value = 3;
+  }
+  //level 8
+  if (metaCardGameController.level.value == 8) {
+    controller.tries.value = 2;
+  }
+  //level 9-10
+  if (metaCardGameController.level.value > 9) {
+    controller.tries.value = 1;
   }
 }
