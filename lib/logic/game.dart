@@ -17,10 +17,9 @@ class Game {
       element.isMatched = false;
       element.controller.state?.isFront == true
           ? null
-          : element.controller.toggleCard();
+          : element.controller.toggleCardWithoutAnimation();
     }
 
-    await Future.delayed(const Duration(milliseconds: 1000));
     controller.flipCardData.value = DummyData().data;
     await Future.delayed(const Duration(milliseconds: 500));
 
