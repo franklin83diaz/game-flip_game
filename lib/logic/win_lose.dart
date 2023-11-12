@@ -62,6 +62,18 @@ class WinLose {
                   //up level
                   metaCardGameController.level.value++;
                   //
+                  if (metaCardGameController.level.value == 1) {
+                    controller.tries.value = 9;
+                  }
+                  if (metaCardGameController.level.value == 2) {
+                    controller.tries.value = 7;
+                  }
+                  //
+                  //
+                  if (metaCardGameController.level.value == 3) {
+                    controller.tries.value = 6;
+                  }
+                  //
                   if (metaCardGameController.level.value > 3 &&
                       metaCardGameController.level.value < 5) {
                     controller.tries.value = 5;
