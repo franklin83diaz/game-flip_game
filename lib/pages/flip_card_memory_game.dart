@@ -71,6 +71,8 @@ class FlipCardMemoryGame extends StatelessWidget {
                                 if (controller.flipCardData[index].controller
                                         .state!.isFront ==
                                     true) {
+                                  await Future.delayed(
+                                      const Duration(milliseconds: 50));
                                   controller.flipCardData[index].isFlipped =
                                       true;
                                 } else {
