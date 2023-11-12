@@ -1,10 +1,10 @@
 name: memory
-description: A new Flutter project.
+description: A Memory Game.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.4+2
+version: 1.0.5+2
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -21,6 +21,7 @@ dependencies:
   flip_card:
   get: ^4.6.0
   google_fonts: ^6.1.0
+  google_mobile_ads: ^3.1.0
 
 dev_dependencies:
   change_app_package_name: ^1.1.0

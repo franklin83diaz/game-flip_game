@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:memory/controllers/flip_card_controller.dart';
 import 'package:memory/logic/game.dart';
 import 'package:memory/logic/win_lose.dart';
 import 'package:memory/pages/flip_card_memory_game.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   //Initial controller
   Get.put(MetaGameController());
   Get.put(FlipCardGameController());

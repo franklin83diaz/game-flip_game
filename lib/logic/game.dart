@@ -8,7 +8,6 @@ class Game {
     final FlipCardGameController controller =
         Get.find<FlipCardGameController>();
     controller.isBusy.value = true;
-
     controller.selectedCard.value = [];
 
     //reset data

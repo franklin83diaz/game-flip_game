@@ -2,6 +2,8 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:memory/admob/admob.dart';
 
 import '../controllers/flip_card_controller.dart';
 import 'component/score_memory_game_widget.dart';
@@ -19,6 +21,14 @@ class FlipCardMemoryGame extends StatelessWidget {
 
     List<int> activePointers = <int>[];
 
+    BannerAdmod bannerAdmod = BannerAdmod();
+
+    metaGameController.level.listen((p0) {
+      if (p0 >= 3 && bannerAdmod.bannerAd == null) {
+        bannerAdmod.loadAd();
+      }
+    });
+
     return Scaffold(
       backgroundColor: const Color(0xFFe85d75),
       body: SafeArea(
@@ -31,10 +41,27 @@ class FlipCardMemoryGame extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  "MEMORY GAME",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 42, color: Colors.white),
+                Obx(
+                  () => metaGameController.level < 3
+                      ? const Text(
+                          "MEMORY GAME",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 42, color: Colors.white),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: SizedBox(
+                            width:
+                                bannerAdmod.bannerAd?.size.width.toDouble() ??
+                                    double.infinity,
+                            height:
+                                bannerAdmod.bannerAd?.size.height.toDouble() ??
+                                    60,
+                            child: bannerAdmod.bannerAd == null
+                                ? const SizedBox()
+                                : AdWidget(ad: bannerAdmod.bannerAd!),
+                          ),
+                        ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
