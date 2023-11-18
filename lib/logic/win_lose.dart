@@ -54,12 +54,16 @@ class WinLose {
           return;
         }
 
+        controller.confetti.value = true;
+        await Future.delayed(const Duration(milliseconds: 1000));
+
         Get.defaultDialog(
             barrierDismissible: false,
             title: "Game Over",
             middleText: "You Win, Your Score is ${controller.score.value}",
             confirm: TextButton(
                 onPressed: () {
+                  controller.confetti.value = false;
                   //up level
                   metaCardGameController.level.value++;
                   setTries();

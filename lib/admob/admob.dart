@@ -6,6 +6,9 @@ class BannerAdmod {
 
   final adUnitId = 'ca-app-pub-6213303665882808/1608021758';
 
+  // TODO: replace this test ad unit with your own ad unit.
+//  final adUnitId = 'ca-app-pub-3940256099942544/6300978111';
+
   /// Loads a banner ad.
   void loadAd() {
     bannerAd = BannerAd(

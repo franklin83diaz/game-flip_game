@@ -5,6 +5,7 @@ class FlipCardGameController extends GetxController {
   RxList<FlipCardModel> flipCardData = DummyData().data.obs;
   RxList<FlipCardModel> selectedCard = <FlipCardModel>[].obs;
   RxBool isBusy = false.obs;
+  RxBool confetti = false.obs;
 
   RxInt score = 0.obs;
   RxInt tries = 9.obs;
